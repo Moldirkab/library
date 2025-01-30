@@ -352,6 +352,8 @@ public class MyApplication {
                     break;
                 case 4:
                     deleteBook();
+                case 5:
+                    exit();
                 default:
                     System.out.println("Invalid choice, please try again.");
             }
