@@ -1,19 +1,20 @@
-package controllers;
-import models.Transaction;
-import repositories.ITransactionsRepository;
+package controllersDraft;
+import controllersDraft.interfaces.ITransactionsControllerDraft;
+import modelsDraft.TransactionDraft;
+import repositoriesDraft.interfaces.ITransactionsRepositoryDraft;
 
 
-public class TransactionsController implements ITransactionsController {
-    ITransactionsRepository repo;
+public class TransactionsControllerDraft implements ITransactionsControllerDraft {
+    ITransactionsRepositoryDraft repo;
 
-    public TransactionsController(ITransactionsRepository repo) {
+    public TransactionsControllerDraft(ITransactionsRepositoryDraft repo) {
         this.repo = repo;
     }
 
     @Override
     public String borrowBook(int book_id, int member_id, int[] currentDate) {
-        int[] dueDate = Calculator.addDaysToDate(currentDate, 14);
-        Transaction transaction = new Transaction(book_id, member_id, currentDate, dueDate);
+        int[] dueDate = CalculatorDraft.addDaysToDate(currentDate, 14);
+        TransactionDraft transaction = new TransactionDraft(book_id, member_id, currentDate, dueDate);
         boolean created = repo.borrowBook(transaction);
         return created ? "You have successfully borrowed the book:\n" + transaction.toString() : "You cannot borrow the book";
     }
@@ -26,8 +27,8 @@ public class TransactionsController implements ITransactionsController {
         }
         String[] parts = dueDateString.split("-");
         int[] dueDate = new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])};
-        int fine = Calculator.calculateFine(returnDate, dueDate);
-        Transaction transaction = new Transaction(book_id, member_id, returnDate, dueDate, fine);
+        int fine = CalculatorDraft.calculateFine(returnDate, dueDate);
+        TransactionDraft transaction = new TransactionDraft(book_id, member_id, returnDate, dueDate, fine);
         boolean returned = repo.returnBook(transaction);
         if (fine > 0 && returned) {
             return "The book was returned after the due date. You have to pay a fine of " + fine + "$.";
@@ -36,4 +37,9 @@ public class TransactionsController implements ITransactionsController {
         }
         return "Failed to return the book.";
     }
+    @Override
+   public String getFullTransactionDetails(int transactionId){
+        String result=repo.getFullTransactionDetails(transactionId);
+        return result;
+   }
 }
