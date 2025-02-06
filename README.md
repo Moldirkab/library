@@ -9,7 +9,7 @@ The system ensures that the library’s workflow is streamlined and organized, i
 Features 🌟
 
 1. Book Management 📚
-Add Books: Admins can easily add new books to the catalog, providing information such as:
+Add Books: Readerss can easily add new books to the catalog, providing information such as:
 Book ID (unique identifier)
 Title
 Author
@@ -35,9 +35,9 @@ Staff-related or book-related actions.
 
 
 4. Borrowing and Returning 🔄
-Track Borrowed Books: Admins can see what books are currently borrowed and by whom, and ensure that due dates are respected. 📑
+Track Borrowed Books: Staff can see what books are currently borrowed and by whom, and ensure that due dates are respected. 📑
 Track which book was borrowed by which member.
 Record the borrowing date and due date.
-Borrow Books: Members can borrow available books. Once borrowed, the system records the borrowing date, due date, and sets a reminder for the return date. 🏃‍♀️📚
-Return Books: When members return books, the system automatically updates the availability of the book and calculates any overdue fines if applicable. ⏳
-Due Date Calculation: The system automatically calculates the due date for every book based on the library’s policy (e.g., 14 days from the borrowing date). If the book is returned late, the system applies an overdue fine. 📅⏰
+Borrow Books: Readers can borrow available books. Once borrowed, the system records the borrowing date, due date, and sets a reminder for the return date. 🏃‍♀️📚
+Return Books: When readers return books, the system automatically updates the availability of the book and calculates any overdue fines if applicable. ⏳
+Due Date Calculation: The system automatically calculates the due date for every book based on the library’s policy (e.g., 14 days from the borrowing date). If the book is returned late, the system applies an overdue fine. 📅⏰(Only focuses on the one year, for example 2024)
