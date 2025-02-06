@@ -1,4 +1,4 @@
-package controllersDraft.interfaces;
+package interfaces;
 import modelsDraft.BookDraft;
 import java.util.List;
 
