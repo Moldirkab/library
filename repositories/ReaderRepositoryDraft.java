@@ -1,36 +1,47 @@
-    package repositories;
+package repositoriesDraft;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import models.Reader;
-public class ReaderRepository implements IReaderRepository {
+import modelsDraft.ReaderDraft;
+import repositoriesDraft.interfaces.IReaderRepositoryDraft;
+
+
+public class ReaderRepositoryDraft implements IReaderRepositoryDraft {
     private Connection connection;
 
-    public ReaderRepository(Connection connection) {
+    public ReaderRepositoryDraft(Connection connection) {
         this.connection = connection;
     }
 
-    public void addReader(Reader reader) {
+    public void addReader(ReaderDraft reader) {
         String sqlInsert = "INSERT INTO readers (name, surname, email, password) VALUES (?, ?, ?, ?)";
-        String sqlSelect = "SELECT id FROM readers WHERE email = ?";
+        String sqlSelect = "SELECT id, name, surname, email, password FROM readers WHERE email = ?";  // Select all needed columns
 
         try (PreparedStatement insertStatement = connection.prepareStatement(sqlInsert);
              PreparedStatement selectStatement = connection.prepareStatement(sqlSelect)) {
+
 
             insertStatement.setString(1, reader.getName());
             insertStatement.setString(2, reader.getSurname());
             insertStatement.setString(3, reader.getEmail());
             insertStatement.setString(4, reader.getPassword());
-            insertStatement.executeUpdate();
+            insertStatement.executeUpdate();  // Execute the insert
 
             selectStatement.setString(1, reader.getEmail());
             try (ResultSet resultSet = selectStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    reader.setId(id);
+
+                    reader = (ReaderDraft) new ReaderDraft.ReaderBuilder()
+                            .setEmail(resultSet.getString("email"))
+                            .setId(resultSet.getInt("id"))
+                            .setName(resultSet.getString("name"))
+                            .setSurname(resultSet.getString("surname"))
+                            .setPassword(resultSet.getString("password"))
+                            .build();
                 } else {
+
                     System.err.println("Error: Unable to retrieve the generated ID.");
                 }
             }
@@ -47,23 +58,23 @@ public class ReaderRepository implements IReaderRepository {
 
 
 
-    public Reader findReaderByIdPassword(int id, String password) {
-        String sql = "SELECT * FROM readers WHERE id = ? and password = ?";
+
+    public ReaderDraft findReaderByIdPassword(int id, String password) {
+        String sql = "SELECT id, name, surname, email, password FROM readers WHERE id = ? and password = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.setString(2, password);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Reader(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("surname"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password")
-                    );
-                } else {
-                    return null;
-                }
+                ReaderDraft reader = null;
+                while(resultSet.next()) {
+                     reader = (ReaderDraft) new ReaderDraft.ReaderBuilder()
+                             .setEmail(resultSet.getString("email"))
+                            .setId(resultSet.getInt("id"))
+                            .setName(resultSet.getString("name"))
+                            .setSurname(resultSet.getString("surname"))
+                            .setPassword(resultSet.getString("password"))
+                            .build();
+                } return reader;
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
