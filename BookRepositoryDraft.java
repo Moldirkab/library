@@ -1,33 +1,36 @@
-package repositories;
-import models.Book;
+package repositoriesDraft;
+import modelsDraft.BookDraft;
+import repositoriesDraft.interfaces.IBookRepositoryDraft;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRepository implements repositories.IBookRepository {
+public class BookRepositoryDraft implements IBookRepositoryDraft {
     private final Connection connection;
 
-    public BookRepository(Connection connection) {
+    public BookRepositoryDraft(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<>();
+    public List<BookDraft> getAllBooks() {
+        List<BookDraft> books = new ArrayList<>();
         String query = "SELECT * FROM \"Books\" Order by book_id ASC";
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                books.add(new Book(
-                        rs.getInt("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getBoolean("is_borrowed")
-                ));
+                books.add(new BookDraft.BookBuilder()
+                        .setBookId(rs.getInt("book_id"))
+                        .setTitle(rs.getString("title"))
+                        .setAuthor(rs.getString("author"))
+                        .setBorrowed(rs.getBoolean("is_borrowed"))
+                        .setCategory(rs.getString( "category")).build()
+                );
             }
+            return books;
 
         } catch (SQLException e) {
             System.out.println("Error fetching books: " + e.getMessage());
@@ -36,20 +39,20 @@ public class BookRepository implements repositories.IBookRepository {
     }
 
     @Override
-    public Book getBookById(int id) {
+    public BookDraft getBookById(int id) {
         String query = "SELECT * FROM \"Books\" WHERE book_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Book(
-                            rs.getInt("book_id"),
-                            rs.getString("title"),
-                            rs.getString("author"),
-                            rs.getBoolean("is_borrowed")
-                    );
+                    return new BookDraft.BookBuilder()
+                                .setBookId(rs.getInt("book_id"))
+                                .setTitle(rs.getString("title"))
+                                .setAuthor(rs.getString("author"))
+                                .setBorrowed(rs.getBoolean("is_borrowed"))
+                            .setCategory(rs.getString("category")).build();
+                    };
                 }
-            }
         } catch (SQLException e) {
             System.out.println("Error fetching book by ID: " + e.getMessage());
         }
@@ -57,7 +60,7 @@ public class BookRepository implements repositories.IBookRepository {
     }
 
     @Override
-    public boolean addBook(Book book) {
+    public boolean addBook(BookDraft book) {
         String query = "INSERT INTO \"Books\" (title, author, is_borrowed) VALUES (?,?,?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, book.getTitle());
@@ -72,12 +75,13 @@ public class BookRepository implements repositories.IBookRepository {
     }
 
     @Override
-    public void updateBook(Book book) {
-        String query = "UPDATE \"Books\" SET title = ?, author = ?, is_borrowed = ? WHERE book_id = ?";
+    public void updateBook(BookDraft book) {
+        String query = "UPDATE \"Books\" SET title = ?, author = ?, is_borrowed = ?, category=? WHERE book_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, book.getTitle());
             pstmt.setString(2, book.getAuthor());
             pstmt.setBoolean(3, book.isBorrowed());
+            pstmt.setString(4,book.getCategory());
             pstmt.setInt(4, book.getBookId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -90,7 +94,9 @@ public class BookRepository implements repositories.IBookRepository {
         String query = "DELETE FROM \"Books\" WHERE book_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+            if(pstmt.executeUpdate()>0){
+                System.out.println("Book deleted successfully");
+            }
         } catch (SQLException e) {
             System.out.println("Error deleting book: " + e.getMessage());
         }
