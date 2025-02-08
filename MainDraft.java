@@ -13,7 +13,13 @@ import repositoriesDraft.interfaces.ITransactionsRepositoryDraft;
 
 public class MainDraft {
     public static void main(String[] args) {
-        DBDraft db = PostgresDBDraft.getInstance("jdbc:postgresql://localhost:5432", "postgres","070906","NewDB");
+        String dbUrl = ConfigLoader.get("database.url");
+        String username = ConfigLoader.get("database.username");
+        String password = ConfigLoader.get("database.password");
+        String dbName = ConfigLoader.get("database.dbName");
+
+
+        DBDraft db = PostgresDBDraft.getInstance(dbUrl, username, password, dbName);
         IBookRepositoryDraft bookRepository = new BookRepositoryDraft(db.getConnection());
         IBookControllerDraft bookController = new BookControllerDraft(bookRepository);
         IReaderRepositoryDraft readerRepository = new ReaderRepositoryDraft(db.getConnection());
