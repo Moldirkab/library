@@ -1,4 +1,4 @@
-package interfaces;
+package repositoriesDraft.interfaces;
 
 import modelsDraft.BookDraft;
 import java.util.List;

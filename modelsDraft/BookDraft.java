@@ -1,11 +1,13 @@
 package modelsDraft;
 
+import java.util.List;
+
 public class BookDraft {
-    private int bookId;
-    private String title;
-    private String category;
-    private String author;
-    private boolean isBorrowed;
+    private final int bookId;
+    private final String title;
+    private final String category;
+    private final String author;
+    private final boolean isBorrowed;
 
     private BookDraft(BookBuilder builder) {
         this.bookId = builder.bookId;
@@ -78,5 +80,13 @@ public class BookDraft {
         public BookDraft build() {
             return new BookDraft(this);
         }
+    }
+
+    public interface IBookRepositoryDraft {
+        List<BookDraft> getAllBooks();
+        BookDraft getBookById(int id);
+        boolean addBook(BookDraft book);
+        void updateBook(BookDraft book);
+        void deleteBook(int id);
     }
 }

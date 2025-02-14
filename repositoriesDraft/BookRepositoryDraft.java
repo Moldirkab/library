@@ -30,6 +30,7 @@ public class BookRepositoryDraft implements IBookRepositoryDraft {
                         .setCategory(rs.getString( "category")).build()
                 );
             }
+
             return books;
 
         } catch (SQLException e) {
@@ -46,13 +47,13 @@ public class BookRepositoryDraft implements IBookRepositoryDraft {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new BookDraft.BookBuilder()
-                                .setBookId(rs.getInt("book_id"))
-                                .setTitle(rs.getString("title"))
-                                .setAuthor(rs.getString("author"))
-                                .setBorrowed(rs.getBoolean("is_borrowed"))
+                            .setBookId(rs.getInt("book_id"))
+                            .setTitle(rs.getString("title"))
+                            .setAuthor(rs.getString("author"))
+                            .setBorrowed(rs.getBoolean("is_borrowed"))
                             .setCategory(rs.getString("category")).build();
-                    };
-                }
+                };
+            }
         } catch (SQLException e) {
             System.out.println("Error fetching book by ID: " + e.getMessage());
         }
@@ -83,7 +84,9 @@ public class BookRepositoryDraft implements IBookRepositoryDraft {
             pstmt.setBoolean(3, book.isBorrowed());
             pstmt.setString(4,book.getCategory());
             pstmt.setInt(4, book.getBookId());
-            pstmt.executeUpdate();
+            if(pstmt.executeUpdate()>0){
+                System.out.println("Book updated successfully");
+            }
         } catch (SQLException e) {
             System.out.println("Error updating book: " + e.getMessage());
         }

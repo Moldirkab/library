@@ -1,5 +1,6 @@
-package interfaces;
+package controllersDraft.interfaces;
 import modelsDraft.BookDraft;
+
 import java.util.List;
 
 public interface IBookControllerDraft {
