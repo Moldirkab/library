@@ -1,7 +1,7 @@
 server:
   port: 8080
 database:
-  url: jdbc:postgresql://localhost:5432/NewDB
+  url: jdbc:postgresql://localhost:5432
   username: postgres
   password: "070906"
   dbName: NewDB
