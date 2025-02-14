@@ -7,7 +7,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+MansurNew
     <orderEntry type="library" name="postgresql-42.7.5" level="project" />
     <orderEntry type="library" name="snakeyaml-2.1" level="project" />
+=======
+main
   </component>
 </module>

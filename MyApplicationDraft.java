@@ -57,18 +57,32 @@ public class MyApplicationDraft {
                 scanner.nextLine();
 
                 if (choice == 1) {
+MansurNew
                     System.out.print("Enter your login for log in: ");
                     String searchLogin = scanner.nextLine();
                     System.out.print("Enter your password for log in: ");
                     String searchPassword = scanner.nextLine();
 
                     ReaderDraft foundReader = readerController.findReaderByLoginPassword(searchLogin, searchPassword);
+=======
+                    System.out.print("Enter your ID for log in: ");
+                    int searchId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter your password for log in: ");
+                    String searchPassword = scanner.nextLine();
+
+                    ReaderDraft foundReader = readerController.findReaderByIdPassword(searchId, searchPassword);
+main
                     if (foundReader != null) {
                         System.out.println("Logged in successfully." + " Welcome, " + foundReader.getName());
                         loggedReader = foundReader;
                         return;
                     } else {
+MansurNew
                         System.out.println("Reader with login " + searchLogin + " not found or password is incorrect.");
+=======
+                        System.out.println("Reader with ID " + searchId + " not found or password is incorrect.");
+main
                     }
                 } else if (choice == 2) {
                     System.out.print("Enter your name: ");
@@ -89,6 +103,7 @@ public class MyApplicationDraft {
                         }
                     }
 
+MansurNew
                     String login = null;
                     while (true) {
                         System.out.print("Enter your login (5 characters): ");
@@ -100,6 +115,8 @@ public class MyApplicationDraft {
                         }
                     }
 
+=======
+main
                     String password = null;
                     while (true) {
                         System.out.print("Enter your password (8 characters): ");
@@ -110,13 +127,19 @@ public class MyApplicationDraft {
                             break;
                         }
                     }
+MansurNew
 
+=======
+main
                     ReaderDraft newReader = (ReaderDraft) new ReaderDraft.ReaderBuilder()
                             .setEmail(email)
                             .setName(name)
                             .setSurname(surname)
                             .setPassword(password)
+MansurNew
                             .setLogin(login)
+=======
+main
                             .build();
                     readerController.addReader(newReader);
                     loggedReader = newReader;
@@ -146,17 +169,30 @@ public class MyApplicationDraft {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
                 if (choice == 1) {
+MansurNew
                     System.out.print("Enter the login for log in: ");
                     String searchLogin = scanner.nextLine();
                     System.out.println("Enter the password for log in: ");
                     String password = scanner.nextLine();
                     StaffDraft foundStaff = staffController.findMemberByLoginPassword(searchLogin, password);
+=======
+                    System.out.print("Enter the id for log in: ");
+                    int searchId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Enter the password for log in: ");
+                    String password = scanner.nextLine();
+                    StaffDraft foundStaff = staffController.findMemberByIdPassword(searchId, password);
+main
                     if (foundStaff != null) {
                         System.out.println("Logged in successfully. Welcome, " + foundStaff.getName() + "!");
                         loggedInStaff = foundStaff;
                         return;
                     } else {
+MansurNew
                         System.out.println("Staff with ID " + searchLogin + " not found.");
+=======
+                        System.out.println("Staff with ID " + searchId + " not found.");
+main
                     }
                 } else if (choice == 2) {
 
@@ -169,6 +205,7 @@ public class MyApplicationDraft {
                     System.out.print("Enter your salary: ");
                     int salary = scanner.nextInt();
                     scanner.nextLine();
+MansurNew
 
                     String login = null;
                     while (true) {
@@ -181,6 +218,8 @@ public class MyApplicationDraft {
                         }
                     }
 
+=======
+main
                     System.out.print("Enter your password (8 characters): ");
                     String password = null;
                     while (true) {
@@ -191,15 +230,21 @@ public class MyApplicationDraft {
                             break;
                         }
                     }
+MansurNew
 
 
 
+=======
+main
                     StaffDraft newStaff = (StaffDraft) new StaffDraft.StaffBuilder()
                             .setSalary(salary)
                             .setName(name)
                             .setSurname(surname)
                             .setPassword(password)
+MansurNew
                             .setLogin(login)
+=======
+main
                             .build();
                     staffController.addMember(newStaff);
                     System.out.println("New reader created: " + newStaff);
@@ -300,15 +345,21 @@ public class MyApplicationDraft {
                         System.out.print("Enter the salary: ");
                         int salary = scanner.nextInt();
                         scanner.nextLine();
+MansurNew
                         System.out.print("Enter the login: ");
                         String login = scanner.next();
+=======
+main
                         System.out.print("Enter the password: ");
                         String password = scanner.next();
                         StaffDraft staff = (StaffDraft) new StaffDraft.StaffBuilder()
                                 .setSalary(salary)
                                 .setName(name)
                                 .setSurname(surname)
+MansurNew
                                 .setLogin(login)
+=======
+main
                                 .setPassword(password).build();
                         StaffDraft staffAdded = staffController.addMember(staff);
                         if (staffAdded != null) {
@@ -319,6 +370,7 @@ public class MyApplicationDraft {
                     }
                     case 2 -> staffController.showAllMembers();
                     case 3 -> {
+MansurNew
                         System.out.print("Enter the person's login to search: ");
                         String login = scanner.nextLine();
                         scanner.nextLine();
@@ -335,6 +387,24 @@ public class MyApplicationDraft {
                         System.out.print("Enter the person's login to delete: ");
                         String login = scanner.nextLine();
                         staffController.deleteMemberByLogin(login);
+=======
+                        System.out.print("Enter the person's ID to search: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter the person's password: ");
+                        String password = scanner.nextLine();
+                        StaffDraft staff = staffController.findMemberByIdPassword(id, password);
+                        if (staff != null) {
+                            System.out.println(staff);
+                        } else {
+                            System.out.println("Staff with ID " + id + " not found or the password is incorrect .");
+                        }
+                    }
+                    case 4 -> {
+                        System.out.print("Enter the person's ID to delete: ");
+                        int id = scanner.nextInt();
+                        staffController.deleteMemberById(id);
+main
                         staffController.showAllMembers();
                     }
                     case 5 -> {
