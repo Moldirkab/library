@@ -6,10 +6,14 @@ import controllersDraft.interfaces.ITransactionsControllerDraft;
 import dataDraft.DBDraft;
 import dataDraft.PostgresDBDraft;
 import repositoriesDraft.*;
+MansurNew
+import repositoriesDraft.interfaces.*;
+=======
 import repositoriesDraft.interfaces.IBookRepositoryDraft;
 import repositoriesDraft.interfaces.IReaderRepositoryDraft;
 import repositoriesDraft.interfaces.IStaffRepositoryDraft;
 import repositoriesDraft.interfaces.ITransactionsRepositoryDraft;
+main
 
 public class MainDraft {
     public static void main(String[] args) {
