@@ -3,10 +3,5 @@ server:
 database:
   url: jdbc:postgresql://localhost:5432
   username: postgres
-MansurNew
   password: "gtjmpd123"
   dbName: Library
-=======
-  password: "070906"
-  dbName: NewDB
-main
