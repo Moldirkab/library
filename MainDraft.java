@@ -1,4 +1,12 @@
 import controllersDraft.*;
+
+import controllersDraft.interfaces.*;
+import dataDraft.*;
+import factoryDraft.*;
+import modelsDraft.*;
+import repositoriesDraft.*;
+import repositoriesDraft.interfaces.*;
+
 import controllersDraft.interfaces.IBookControllerDraft;
 import controllersDraft.interfaces.IReaderControllerDraft;
 import controllersDraft.interfaces.IStaffControllerDraft;
@@ -8,7 +16,7 @@ import dataDraft.PostgresDBDraft;
 import repositoriesDraft.*;
 MansurNew
 import repositoriesDraft.interfaces.*;
-=======
+
 import repositoriesDraft.interfaces.IBookRepositoryDraft;
 import repositoriesDraft.interfaces.IReaderRepositoryDraft;
 import repositoriesDraft.interfaces.IStaffRepositoryDraft;
@@ -24,6 +32,15 @@ public class MainDraft {
 
 
         DBDraft db = PostgresDBDraft.getInstance(dbUrl, username, password, dbName);
+        IBookRepositoryDraft bookRepository = RepositoryFactory.createBookRepository(db.getConnection());
+        IBookControllerDraft bookController = ControllerFactory.createBookController(bookRepository);
+        IReaderRepositoryDraft readerRepository = RepositoryFactory.createReaderRepository(db.getConnection());
+        IReaderControllerDraft readerController = ControllerFactory.createReaderController(readerRepository);
+        IStaffRepositoryDraft staffRepository = RepositoryFactory.createStaffRepository(db.getConnection());
+        IStaffControllerDraft staffController = ControllerFactory.createStaffController(staffRepository);
+        ITransactionsRepositoryDraft transactionsRepository = RepositoryFactory.createTransactionRepository(db.getConnection());
+        ITransactionsControllerDraft transactionsController=ControllerFactory.createTransactionsController(transactionsRepository);
+
         IBookRepositoryDraft bookRepository = new BookRepositoryDraft(db.getConnection());
         IBookControllerDraft bookController = new BookControllerDraft(bookRepository);
         IReaderRepositoryDraft readerRepository = new ReaderRepositoryDraft(db.getConnection());
